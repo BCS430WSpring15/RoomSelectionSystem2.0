@@ -107,7 +107,7 @@ form li:hover{
 	 -moz-box-shadow: 0 0 1em #40A9DF;
 }
 input[type="submit"]{
-	float:right;
+	margin: 0 auto;
 	font-size:18px;
 	display: inline-block;
 	font-weight:600;
