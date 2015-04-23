@@ -302,7 +302,7 @@ LOGIN FOR STARTS HERE
 *
 */
   .login-form {
-  background:#fff;
+  background:#546802;
   width:32%;
   margin:7% auto 4% auto;
   position: relative;
@@ -358,7 +358,7 @@ form li{
   list-style:none;
   margin-bottom:25px;
   width:100%;
-  background:none;
+  background:#F0EFE2;
   border-radius: 0.3em;
   -webkit-border-radius: 0.3em;
   -o- border-radius: 0.3em;
@@ -376,7 +376,7 @@ input[type="submit"]{
   display: inline-block;
   font-size:18px;
   font-weight:600;
-  color: #fff;
+  color: #546802;
   transition: 0.1s all;
   -webkit-transition: 0.1s all;
   -moz-transition: 0.1s all;
@@ -392,23 +392,8 @@ input[type="submit"]{
   -webkit-border-radius: 0.3em;
   -o- border-radius: 0.3em;
   -moz-border-radius: 0.3em;
-  background: #ffe49e; /* Old browsers */
-  background: -moz-linear-gradient(top,  #ffe49e 0%, #ffb700 3%, #ffad00 35%, #ff9000 97%, #e27f00 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#ffe49e), color-stop(3%,#ffb700), color-stop(35%,#ffad00), color-stop(97%,#ff9000), color-stop(100%,#e27f00)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  #ffe49e 0%,#ffb700 3%,#ffad00 35%,#ff9000 97%,#e27f00 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top,  #ffe49e 0%,#ffb700 3%,#ffad00 35%,#ff9000 97%,#e27f00 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  #ffe49e 0%,#ffb700 3%,#ffad00 35%,#ff9000 97%,#e27f00 100%); /* IE10+ */
-  background: linear-gradient(to bottom,  #ffe49e 0%,#ffb700 3%,#ffad00 35%,#ff9000 97%,#e27f00 100%); /* W3C */
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffe49e', endColorstr='#e27f00',GradientType=0 ); /* IE6-9 */
 }
 input[type="submit"]:hover{
-  background: #e27f00; /* Old browsers */
-  background: -moz-linear-gradient(top,  #e27f00 0%, #ff9000 3%, #ffad00 65%, #ffb700 97%, #ffe49e 100%); /* FF3.6+ */
-  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#e27f00), color-stop(3%,#ff9000), color-stop(65%,#ffad00), color-stop(97%,#ffb700), color-stop(100%,#ffe49e)); /* Chrome,Safari4+ */
-  background: -webkit-linear-gradient(top,  #e27f00 0%,#ff9000 3%,#ffad00 65%,#ffb700 97%,#ffe49e 100%); /* Chrome10+,Safari5.1+ */
-  background: -o-linear-gradient(top,  #e27f00 0%,#ff9000 3%,#ffad00 65%,#ffb700 97%,#ffe49e 100%); /* Opera 11.10+ */
-  background: -ms-linear-gradient(top,  #e27f00 0%,#ff9000 3%,#ffad00 65%,#ffb700 97%,#ffe49e 100%); /* IE10+ */
-  background: linear-gradient(to bottom,  #e27f00 0%,#ff9000 3%,#ffad00 65%,#ffb700 97%,#ffe49e 100%); /* W3C */
-  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#e27f00', endColorstr='#ffe49e',GradientType=0 ); /* IE6-9 */
-  
+  background: #C2C0AD;
 }
