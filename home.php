@@ -16,17 +16,17 @@
         <div id="logo_text">
           <!-- class="logo_colour", allows you to change the colour of the text -->
           <h1><a>Room<span class="logo_colour">Selection System</span></a></h1>
-          <h2>Simple. Contemporary. Website Template.</h2>
+
         </div>
       </div>
       <div id="menubar">
         <ul id="menu">
           <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
           <li class="selected"><a>Home</a></li>
-          <li><a href="housing_application.php">Housing Application</a></li>
-          <li><a href="page.html">A Page</a></li>
-          <li><a href="another_page.html">Another Page</a></li>
-          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="housing_application.php">Housing Application</a>
+          <li><a href="remove_student.php">Remove Student</a></li>
+          <li><a href="financial_status.php">Financial Status</a></li>
+          <li><a href="room_selection.php">Room Selection</a></li>
         </ul>
       </div>
     </div>
@@ -35,9 +35,11 @@
       </div>
       <div id="content">
         <!-- insert the page content here -->
-        <h1>Welcome to the</h1>
-        <h1><a href="housing_application.php">Housing Application</a></h1>
-        
+        <center><h1>Welcome to the</h1></center>
+       <center><h1><a href="housing_application.php">Housing Application</a></h1></center>
+        <center><h1><a href="remove_student.php">Remove Student</a></h1></center>
+		<center><h1><a href="financial_status.php">Financial Status</a></h1></center>
+		<center><h1><a href="room_selection.php">Room Selection</a></h1></center>
       </div>
     </div>
     <div id="content_footer"></div>
