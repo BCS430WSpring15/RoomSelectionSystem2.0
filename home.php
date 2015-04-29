@@ -16,6 +16,7 @@
         <div id="logo_text">
           <!-- class="logo_colour", allows you to change the colour of the text -->
           <h1><a>Room<span class="logo_colour">Selection System</span></a></h1>
+		  <h2>Making your life easy</h2>
 
         </div>
       </div>

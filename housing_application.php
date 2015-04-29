@@ -19,7 +19,7 @@
         <div id="logo_text">
           <!-- class="logo_colour", allows you to change the colour of the text -->
           <<h1><a>Room<span class="logo_colour">Selection System</span></a></h1>
-          <h2>Simple. Contemporary.</h2>
+		    <h2>Making your life easy</h2>
         </div>
       </div>
       <div id="menubar">
@@ -110,8 +110,8 @@
           </tr>
         </table>
           <div class="p-container">
-              <input id="houAppBtn" class="submit" type="button" value="SUBMIT" name="name" />
-              <div class="clear"></div>
+            <input id="houAppBtn" class="submit" type="button" value="SUBMIT" name="name" />     
+            <div class="clear"></div>
           </div>
         </form>
       <div class="sidebar">
