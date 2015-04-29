@@ -35,7 +35,7 @@
             
           </div>
           <div id="lfi">
-        <form name="loginForm" action="">
+        <form name="loginForm" action="" id="loginForm">
           <li>
             <input id="username" type="text" value="USERNAME" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'USERNAME';}" >
           </li>

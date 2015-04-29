@@ -343,9 +343,9 @@ form {
   padding:24% 2.5em 5% 2.5em;
 }
 
-input[type="text"], input[type="password"] {
+#loginForm input[type="text"], #loginForm input[type="password"] {
   font-family: 'Open Sans', sans-serif;
-  width:60%;
+  width:80%;
   padding:0.7em 2em 0.7em 1.7em;
   color:#858282;
   font-size:18px;

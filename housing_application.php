@@ -39,11 +39,11 @@
         <p>Bunch of text here.</p>
         <p>Bunch of more text here.</p>
         <p>Bunch of even more text here.</p>
-        <form name="housingApplicationForm" action="">
+        <form name="housingApplicationForm" action="" id="housingApplicationForm">
         <table>
           <tr>
-            <td>Emergency Contact:</td><td><input id="emergcontact" type="text" class="text" value="Emergency Contact" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Emergency Contact';}" /></td>
-            <td>Emergency Contact Phone:</td><td><input id="emergcontactphone" type="text" class="text" value="Emergency Contact Phone" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Emergency Contact Phone';}" /></td>
+            <td>Emergency Contact:</td><td><input id="emergcontact" type="text" class="text" /></td>
+            <td>Emergency Contact Phone:</td><td><input id="emergcontactphone" type="text" class="text" /></td>
           </tr>
         </table>
         <p>Bunch of even more text here.</p>
@@ -51,12 +51,14 @@
           <tr>
             <td>A.</td>
             <td colspan="2">Do you have a roommate preference? (give name)</td>
-            <td colspan="2"><input id="roommatepreference" type="text" class="text" value="Roommate Preference" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Roommate Preference';}" /></td>
+            <td colspan="2"><input id="roommatepreference" type="text" class="text" /></td>
           </tr>
           <tr><td colspan="5">(All roomate requests should be mutual and applications submitted at approximately the same time)</td></tr>
           <tr>
             <td>B.</td>
-            <td colspan="5">I <input type="radio" name="smoker" value="1"> smoke <input type="radio" name="smoker" value="0"> do not smoke (smoking is not allowed in any building on this campus)</td>
+            <td colspan="5">I
+            <input type="radio" name="smoker" value="1"> smoke 
+            <input type="radio" name="smoker" value="0"> do not smoke (smoking is not allowed in any building on this campus)</td>
           </tr>
           <tr>
             <td>C.</td>
@@ -88,25 +90,25 @@
             <td colspan="4">Indicate if you have any mediacal concerns and/or disabilities and any other concerns that require special hosting. A Doctor's note and/or supporting documentation should be attached to this application.</td>
           </tr>
           <tr>
-            <td colspan="5"><textarea rows="4" cols="75"></textarea></td>
+            <td colspan="5"><textarea rows="4" cols="75" id="medicalconcerns"></textarea></td>
           </tr>
         </table>
         <p>Bunch of even more text here.</p>
         <table>
           <tr>
             <td>Student's signature</td>
-            <td colspan="2"><input id="studentsignature" type="text" class="text" value="Student's signature" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Student's signature';}" /></td>
+            <td colspan="2"><input id="studentsignature" type="text" class="text" /></td>
             <td>Date</td>
-            <td><input id="studentsignaturedate" type="text" class="text" value="Date" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Date';}" /></td>
+            <td><input id="studentsignaturedate" type="text" class="text" /></td>
           </tr>
           <tr>
             <td colspan="5">* Mark here to permit release of contact information to your respective rommate: <input type="checkbox" id="releaseinfo" name="releaseinfo" value="true"></td>
           </tr>
           <tr>
             <td>Parent/guardian's signature</td>
-            <td colspan="2"><input id="guardiansignature" type="text" class="text" value="Parent/guardian's signature" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Parent/guardian's signature';}" /></td>
+            <td colspan="2"><input id="guardiansignature" type="text" class="text" /></td>
             <td>Date</td>
-            <td><input id="guardiansignaturedate" type="text" class="text" value="Date" onfocus="this.value = '';" onblur="if (this.value == '') {this.value = 'Date';}" /></td>
+            <td><input id="guardiansignaturedate" type="text" class="text" /></td>
           </tr>
           <tr>
             <td colspan="5">(Requiered if student is under 18 years old)</td>
