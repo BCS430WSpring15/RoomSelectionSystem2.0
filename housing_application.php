@@ -27,9 +27,9 @@
           <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
           <li><a href="home.php">Home</a></li>
           <li class="selected"><a>Housing Application</a></li>
-          <li><a href="page.html">A Page</a></li>
-          <li><a href="another_page.html">Another Page</a></li>
-          <li><a href="contact.html">Contact Us</a></li>
+          <li><a href="remove_student.php">Remove Student</a></li>
+          <li><a href="financial_status.php">Financial Status</a></li>
+          <li><a href="room_selection.php">Room Selection</a></li>
         </ul>
       </div>
     </div>
@@ -115,6 +115,7 @@
           </tr>
         </table>
           <div class="p-container">
+		      <p style="padding-top: 15px"><span>&nbsp;</span><input/></p>
               <input id="houAppBtn" class="submit" type="button" value="SUBMIT" name="name" />
               <div class="clear"></div>
           </div>
@@ -189,7 +190,7 @@
             <p><span>Textarea example</span><textarea rows="8" cols="50" name="name"></textarea></p>
             <p><span>Checkbox example</span><input class="checkbox" type="checkbox" name="name" value="" /></p>
             <p><span>Dropdown list example</span><select id="id" name="name"><option value="1">Example 1</option><option value="2">Example 2</option></select></p>
-            <p style="padding-top: 15px"><span>&nbsp;</span><input class="submit" type="submit" name="name" value="button" /></p>
+            <p style="padding-top: 15px"><span>&nbsp;</span><input class="submit" type="submit" name="name" value="Submit" /></p>
           </div>
         </form>
       </div>

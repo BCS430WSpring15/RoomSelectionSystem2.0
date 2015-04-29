@@ -1,4 +1,4 @@
-<?php
+ <?php
 	require 'dbConn.php';
 	if (isset($_POST["funct"]) && !empty($_POST["funct"])) {
 		if($_POST["funct"] == "VALUSER"){
