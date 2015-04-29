@@ -31,7 +31,7 @@
     <!-----start-main---->
         <div class="login-form">
           <div class="head">
-            <img src="images/logo.jpg" alt=""/>
+            <img src="images/logo.png" alt=""/>
             
           </div>
           <div id="lfi">
