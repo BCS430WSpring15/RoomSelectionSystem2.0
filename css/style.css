@@ -57,7 +57,7 @@ body{
 	border:6px solid rgba(221, 218, 215, 0.23);
 }
 form {
-	padding:24% 2.5em;
+	padding:0% 2.5em;
 }
 form li{
 	border:1px solid #B4B2B2;
@@ -277,6 +277,7 @@ input[type="submit"]:hover{
 .copy-right p a:hover {
 	color:#fff;
 }
+
 /*-----start-responsive-design------*/
 @media (max-width:1024px){
 .login-form  {

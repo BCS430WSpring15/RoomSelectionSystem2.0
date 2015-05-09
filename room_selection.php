@@ -19,6 +19,7 @@
         <div id="logo_text">
           <!-- class="logo_colour", allows you to change the colour of the text -->
           <<h1><a>Room<span class="logo_colour">Selection System</span></a></h1>
+		  <h2>Making your life easy</h2>
         </div>
       </div>
       <div id="menubar">
@@ -35,11 +36,14 @@
     <div id="content_header"></div>
     <div id="site_content">
         <h1>Room Selection</h1>
+
 		
 </div>		
   <div id="content_footer"></div>
     <div id="footer">
       Copyright &copy; Eagle Solutions | <a href="http://validator.w3.org/check?uri=referer">HTML5</a> | <a href="http://jigsaw.w3.org/css-validator/check/referer">CSS</a>
-    </div>		
+    </div>	
+
+	
 </body>
 </html>

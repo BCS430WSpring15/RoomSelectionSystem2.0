@@ -343,6 +343,10 @@ form {
   padding:24% 2.5em 5% 2.5em;
 }
 
+#housingApplicationForm, #roomSelectionForm, #beginingHousingAppForm{
+  padding:5% 2.5em 5% 2.5em;
+}
+
 #loginForm input[type="text"], #loginForm input[type="password"] {
   font-family: 'Open Sans', sans-serif;
   width:80%;

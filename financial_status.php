@@ -19,6 +19,7 @@
         <div id="logo_text">
           <!-- class="logo_colour", allows you to change the colour of the text -->
           <<h1><a>Room<span class="logo_colour">Selection System</span></a></h1>
+		  <h2>Making your life easy</h2>
         </div>
       </div>
       <div id="menubar">
@@ -35,6 +36,19 @@
     <div id="content_header"></div>
     <div id="site_content">
         <h1>Financial Status</h1>
+		
+		<form name="housingApplicationForm" action="" id="housingApplicationForm">
+        <table>
+          <tr>
+            <td>RAM ID#:</td><td><input id="student" type="text" class="text" /></td></tr>
+            <td>Name:</td><td><input id="reason" type="text" class="text" /></td>
+          </tr>
+		   <tr>
+            <td colspan="5"><textarea rows="4" cols="75" id="medicalconcerns"></textarea></td>
+          </tr>
+        </table>	
+		 <input id="houAppBtn" class="submit" type="button" value="SUBMIT" name="name" />
+		
 		
 </div>		
   <div id="content_footer"></div>
