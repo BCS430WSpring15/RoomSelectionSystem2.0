@@ -13,6 +13,12 @@
 		else if($_POST["funct"] == "ROOMSELECTIONFORM"){
 			submitRoomSelectionForm();
 		}
+		else if($_POST["funct"] == "RETRIEVEFLOORS"){
+			retrieveFloors();
+		}
+		else if($_POST["funct"] == "RETRIEVESUITES"){
+			retrieveSuites();
+		}
 	}
 
 	function validateUserLogin() {
@@ -95,6 +101,7 @@
 		/*foreach($_POST as $key=>$value){
 			$arr["$key"] = "$value";
 		}*/
+		//Check if exists first
 		$conn = getConnection();
 		$name_last_name = $pieces = explode(",", $_POST["name"]);
 		$address = $_POST["address_street"].", ".$_POST["address_state"];
@@ -155,17 +162,29 @@
 					exit();
 				}
 			}
-			$sql = 'INSERT INTO `RSS`.`ROOM_SELECTION_FORM` (`StudentID` `SuiteRoom1`, `CurrentSemester`, `AssisgmentFollowingSemester`, `Signature`, `SignatureDate`) VALUES ("1", "'.$_POST["preferencei"].'", "'.$periodDescription.'", "'.$_POST["preferencei"].'", "PENDING", "000-00-00");';
+
+			$sql = 'SELECT * FROM `PERIOD_ROOM_STUDENT` WHERE `RoomID` = "'.$roomID.'";';
+			$result = $conn->query($sql);
+			if (!$result) {
+				$arr = array( "returnCode" => "1", "message" => $conn->error );
+				echo json_encode($arr);
+				exit();
+			} else {
+				if ($result->num_rows > 0) {
+			    	$arr = array( "returnCode" => "5", "message" => "Room Not Available" );
+					echo json_encode($arr);
+					exit();
+				}
+			}
+
+			$sql = 'INSERT INTO `ROOM_SELECTION_FORM` (`StudentID`, `SuiteRoom1`, `CurrentSemester`, `AssisgmentFollowingSemester`, `Signature`, `SignatureDate`) VALUES ("1", "'.$_POST["preferencei"].'", "'.$periodDescription.'", "'.$_POST["preferencei"].'", "PENDING", "000-00-00");';
 			$result = $conn->query($sql);
 			if (!$result) {
 				$arr = array( "returnCode" => "3", "message" => $conn->error );
 				echo json_encode($arr);
 				exit();
-			} else{
-				$arr = array("returnCode" => "0", "message" => "Success" );
-				echo json_encode($arr);
-			}
-			$sql = 'INSERT INTO `PERIOD_ROOM_STUDENT` (`PeriodID`, `RoomID`, `StudentID`) VALUES ("'.$periodID.'", "'.$roomID'", "1");';
+			} 
+			$sql = 'INSERT INTO `PERIOD_ROOM_STUDENT` (`PeriodID`, `RoomID`, `StudentID`) VALUES ("'.$periodID.'", "'.$roomID.'", "1");';
 			$result = $conn->query($sql);
 			if (!$result) {
 				$arr = array( "returnCode" => "4", "message" => $conn->error );
@@ -174,6 +193,53 @@
 				$arr = array("returnCode" => "0", "message" => "Success" );
 				echo json_encode($arr);
 			}
+		}
+		if($_POST["isproxyoption"] == "1" && $_POST["rommatei"] == ""){
+			$periodID = "";
+			$roomID = "";
+			$periodDescription = "";
+		}
+	}
+
+	function retrieveFloors(){
+		/*foreach($_POST as $key=>$value){
+			$arr["$key"] = "$value";
+		}*/
+		$conn = getConnection();
+		$sql = 'SELECT `NumberOfFloors` FROM `BUILDING` WHERE `BuildingID` = "'.$_POST["buildingID"].'";';
+		$result = $conn->query($sql);
+		if (!$result) {
+			$arr = array( "returnCode" => "1", "message" => $conn->error );
+			echo json_encode($arr);
+		} else {
+			$arr = array("returnCode" => "0", "message" => "Success" );
+			if ($result->num_rows > 0) {
+			    $row = $result->fetch_assoc();
+			    $numberOfRooms = $row["NumberOfFloors"];
+			    $arr["numberOfRooms"] = $numberOfRooms;
+			}
+			echo json_encode($arr);
+		}
+	}
+
+	function retrieveSuites(){
+		$conn = getConnection();
+		$sql = 'SELECT S.`SuiteID`, S.`SuiteType` FROM `ROOM` R JOIN `SUITE` S ON R.`SuiteID` = S.`SuiteID` WHERE `BuildingID` = "'.$_POST["buildingID"].'" AND `Floor` = "'.$_POST["floorNumber"].'" GROUP BY S.`SuiteType`;';
+		$result = $conn->query($sql);
+		if (!$result) {
+			$arr = array( "returnCode" => "1", "message" => $conn->error );
+			echo json_encode($arr);
+		} else {
+			$arr = array("returnCode" => "0", "message" => "Success" );
+			$arr["length"] = $result->num_rows;
+			if ($result->num_rows > 0) {
+				while($row = $result->fetch_assoc()) {
+					$suiteID = $row["SuiteID"];
+					$suiteType = $row["SuiteType"];
+			        $arr["suites"]["$suiteID"] = $suiteType;
+			    }
+			}
+			echo json_encode($arr);
 		}
 	}
 ?>

@@ -152,6 +152,66 @@ $(function(){
 		  return false;
 	})
 
+	$('#buildingSelect').change(function(){
+		var buildingID = $("#buildingSelect").val();
+		var funct = "RETRIEVEFLOORS";
+		if(buildingID != "-1"){
+			//alert(buildingID);
+			$.ajax({
+		    type: "POST",
+		    dataType: "json",
+		    url: "functions.php",
+		    data: { funct: funct, buildingID: buildingID },
+		    success: function(data) {
+		      console.log(data);
+		      $('#floorSelect').prop('disabled', false);
+		      $('#suiteSelect').prop('disabled', true);
+		      $('#roomSelect').prop('disabled', true);
+		      var numberOfRooms = data["numberOfRooms"];
+		      $('#floorSelect').empty();
+		      $('#floorSelect').append('<option value="-1">---SELECT---</option>');
+		      for(var i = 1; i <= numberOfRooms; i++){
+		      	console.log(i);
+		      	$('#floorSelect').append('<option value="'+i+'">'+i+'</option>');
+		      }
+		    },error: function(data) { 
+		        console.log(data);
+		    }
+		  });
+		  return false;
+		}
+	})
+
+	$('#floorSelect').change(function(){
+		var buildingID = $("#buildingSelect").val();
+		var floorNumber = $("#floorSelect").val();
+		var funct = "RETRIEVESUITES";
+		if(floorNumber != "-1"){
+			$.ajax({
+		    type: "POST",
+		    dataType: "json",
+		    url: "functions.php",
+		    data: { funct: funct, buildingID: buildingID, floorNumber: floorNumber },
+		    success: function(data) {
+		      console.log(data);
+		      $('#suiteSelect').prop('disabled', false);
+		      $('#roomSelect').prop('disabled', true);
+		      console.log(data.length);
+		      if(data.length > 0){
+		      	$('#suiteSelect').empty();
+		      	$('#suiteSelect').append('<option value="-1">---SELECT---</option>');
+		      	$.each(data.suites, function(key,val){
+			        //console.log("key : "+key+" ; value : "+val);
+			        $('#suiteSelect').append('<option value="'+key+'">'+val+'</option>');
+			    });
+		      }
+		    },error: function(data) { 
+		        console.log(data);
+		    }
+		  });
+		  return false;
+		}
+	})
 })
 
 
