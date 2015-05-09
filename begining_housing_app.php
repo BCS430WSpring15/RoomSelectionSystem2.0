@@ -1,4 +1,4 @@
-<?php require 'header.php'; ?>
+<?php require 'header.php'; require 'dbConn.php'; ?>
       <div id="menubar">
         <ul id="menu">
           <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
@@ -42,6 +42,27 @@
           <td>E-mail:</td><td><input id="email" type="text" class="text" />@farmingdale.edu</td>
           <td>Age:</td><td><input id="age" type="text" class="text"/></td>
 		  </tr>
+
+      <tr>
+      <td>Security Question:</td><td>
+        <select id="secQuest">
+          <option value='-1'>---SELECT---</option>
+          <?php
+              $conn = getConnection();
+              $sql = 'SELECT * FROM `SECURITY_QUESTION`;';
+              $result = $conn->query($sql);
+              if ($result) {
+                if ($result->num_rows > 0) {
+                  while($row = $result->fetch_assoc()) {
+                    echo "<option value='".$row["SecurityQuestionID"]."'>".$row["Question"]."</option>";
+                  }
+                }
+              }
+            ?>
+        </select>
+      </td>
+      <td>Answer:</td><td> <input id="secQueAns" class="text"/> </td>
+      </tr>
 		  
 		  <tr>
 		  <td>Password:</td><td><input id="password" type="password" class="text"/> </td>

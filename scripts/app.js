@@ -66,7 +66,6 @@ $(function(){
 	})
 
 	$('#begHouAppBtn').click(function(){
-		alert( "Success" );
 		var funct = "BEGININGHOUSINGAPPLICATION";
 		var major = $("#major").val();
 		var class_status = $("#class_status").val();
@@ -80,6 +79,10 @@ $(function(){
 		var gender = $("input[type='radio'][name='gender']:checked").val();
 		var email = $("#email").val();
 		var age = $("#age").val();
+		var password = $("#password").val();
+		var confirmPass = $("#confirmPass").val();
+		var securityQuestionID = $("#secQuest").val();
+		var securityQuestionAnswer = $("#secQueAns").val();
 		console.log(funct);
 		$.ajax({
 		    type: "POST",
@@ -88,14 +91,14 @@ $(function(){
 		    data: { funct: funct, major: major, class_status: class_status, name: name,
 		    RAM_ID: RAM_ID, address_street: address_street, cell_phone: cell_phone, 
 		    address_state: address_state, home_phone: home_phone, birthdate: birthdate, 
-		    gender: gender, email: email, age: age },
+		    gender: gender, email: email, age: age, password: password, securityQuestionID: securityQuestionID, securityQuestionAnswer: securityQuestionAnswer },
 		    success: function(data) {
 		      console.log(data);
 		    },error: function(data) { 
 		        console.log(data);
 		    }
-		  });
-		  return false;
+		 });
+		return false;
 	})
 
 	$('#rooSelForBtn').click(function(){
@@ -156,14 +159,12 @@ $(function(){
 		var buildingID = $("#buildingSelect").val();
 		var funct = "RETRIEVEFLOORS";
 		if(buildingID != "-1"){
-			//alert(buildingID);
 			$.ajax({
 		    type: "POST",
 		    dataType: "json",
 		    url: "functions.php",
 		    data: { funct: funct, buildingID: buildingID },
 		    success: function(data) {
-		      console.log(data);
 		      $('#floorSelect').prop('disabled', false);
 		      $('#suiteSelect').prop('disabled', true);
 		      $('#roomSelect').prop('disabled', true);
@@ -171,7 +172,6 @@ $(function(){
 		      $('#floorSelect').empty();
 		      $('#floorSelect').append('<option value="-1">---SELECT---</option>');
 		      for(var i = 1; i <= numberOfRooms; i++){
-		      	console.log(i);
 		      	$('#floorSelect').append('<option value="'+i+'">'+i+'</option>');
 		      }
 		    },error: function(data) { 
@@ -193,15 +193,12 @@ $(function(){
 		    url: "functions.php",
 		    data: { funct: funct, buildingID: buildingID, floorNumber: floorNumber },
 		    success: function(data) {
-		      console.log(data);
 		      $('#suiteSelect').prop('disabled', false);
 		      $('#roomSelect').prop('disabled', true);
-		      console.log(data.length);
 		      if(data.length > 0){
 		      	$('#suiteSelect').empty();
 		      	$('#suiteSelect').append('<option value="-1">---SELECT---</option>');
 		      	$.each(data.suites, function(key,val){
-			        //console.log("key : "+key+" ; value : "+val);
 			        $('#suiteSelect').append('<option value="'+key+'">'+val+'</option>');
 			    });
 		      }
@@ -211,6 +208,42 @@ $(function(){
 		  });
 		  return false;
 		}
+	})
+
+	$('#suiteSelect').change(function(){
+		var buildingID = $("#buildingSelect").val();
+		var floorNumber = $("#floorSelect").val();
+		var suiteType = $("#suiteSelect").val();
+		var funct = "RETRIEVEROOMS";
+		if(suiteType != "-1"){
+			$.ajax({
+		    type: "POST",
+		    dataType: "json",
+		    url: "functions.php",
+		    data: { funct: funct, buildingID: buildingID, floorNumber: floorNumber, suiteType: suiteType },
+		    success: function(data) {
+		      console.log(data);
+		      $('#roomSelect').prop('disabled', false);
+		      if(data.length > 0){
+		      	$('#roomSelect').empty();
+		      	$('#roomSelect').append('<option value="-1">---SELECT---</option>');
+		      	$.each(data.rooms, function(key,val){
+			        $('#roomSelect').append('<option value="'+key+'">'+val+'</option>');
+			    });
+		      }
+		    },error: function(data) { 
+		        console.log(data);
+		    }
+		  });
+		  return false;
+		}
+	})
+	$('#roomSelect').change(function(){
+		var buildingID = $("#buildingSelect").val();
+		var floorNumber = $("#floorSelect").val();
+		var suiteType = $("#suiteSelect").val();
+		var roomNumber = $('#roomSelect').val();
+
 	})
 })
 

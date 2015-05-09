@@ -19,6 +19,9 @@
 		else if($_POST["funct"] == "RETRIEVESUITES"){
 			retrieveSuites();
 		}
+		else if($_POST["funct"] == "RETRIEVEROOMS"){
+			retrieveRooms();
+		}
 	}
 
 	function validateUserLogin() {
@@ -112,7 +115,14 @@
 			$arr = array( "returnCode" => "1", "message" => $conn->error );
 			echo json_encode($arr);
 		} else {
-			$arr = array("returnCode" => "0", "message" => "Success" );
+			$studentID = $conn->insert_id;
+			$sql = 'INSERT INTO `STUDENT_PASSWORD` (`StudentID`, `SecurityQuestionID`, `Password`, `SecurityAnswer`) VALUES ("'.$studentID.'", "'.$_POST["securityQuestionID"].'", "'.$_POST["password"].'", "'.$_POST["securityQuestionAnswer"].'");';
+			$result = $conn->query($sql);
+			if (!$result) {
+				$arr = array( "returnCode" => "1", "message" => $conn->error );
+			} else{
+				$arr = array("returnCode" => "0", "message" => "Success" );
+			}
 			echo json_encode($arr);
 		}
 	}
@@ -241,5 +251,64 @@
 			}
 			echo json_encode($arr);
 		}
+	}
+	function retrieveRooms(){
+		$conn = getConnection();
+		$room_period_student = array();
+		$rooms_in_room_period_student = array();
+		$arr = array();
+		$sql = 'SELECT `RoomID`, `RoomNumber` FROM `ROOM` WHERE `BuildingID` = "'.$_POST["buildingID"].'" AND `Floor` = "'.$_POST["floorNumber"].'" AND `SuiteID` = "'.$_POST["suiteType"].'"  AND `RoomID` NOT IN (SELECT `RoomID` FROM `PERIOD_ROOM_STUDENT` WHERE `PeriodID` = (SELECT `PeriodID` FROM `PERIOD` WHERE `IsCurrent` = 1));';
+		$result = $conn->query($sql);
+		if (!$result) {
+			$arr = array( "returnCode" => "1", "message" => $conn->error );
+			echo json_encode($arr);
+			exit();
+		} else {
+			$arr = array("returnCode" => "0", "message" => "Success" );
+			$arr["length"] = $result->num_rows;
+			if ($result->num_rows > 0) {
+				while($row = $result->fetch_assoc()) {
+					$roomID = $row["RoomID"];
+					$roomNumber = $row["RoomNumber"];
+			        $arr["rooms"]["$roomID"] = $roomNumber;
+			    }
+			}
+		}
+		$sql = 'SELECT `RoomID`, COUNT(*) AS `Count` FROM `PERIOD_ROOM_STUDENT` WHERE `PeriodID` = (SELECT `PeriodID` FROM `PERIOD` WHERE `IsCurrent` = 1) GROUP BY `RoomID`;';
+		$result = $conn->query($sql);
+		if (!$result) {
+			$arr["returnCode"] = "1";
+			$arr["message"] = $conn->error;
+			echo json_encode($arr);
+		} else {
+			if ($result->num_rows > 0) {
+				while($row = $result->fetch_assoc()) {
+					$roomID = $row["RoomID"];
+					$room_period_student["$roomID"] = $row["Count"];
+			    }
+			    $sql = 'SELECT `RoomID`, `RoomNumber`, `AmountOfPeople` FROM `ROOM` WHERE `BuildingID` = "'.$_POST["buildingID"].'" AND `Floor` = "'.$_POST["floorNumber"].'" AND `SuiteID` = "'.$_POST["suiteType"].'"  AND `RoomID` IN (SELECT `RoomID` FROM `PERIOD_ROOM_STUDENT` WHERE `PeriodID` = (SELECT `PeriodID` FROM `PERIOD` WHERE `IsCurrent` = 1));';
+			    $result = $conn->query($sql);
+			    if (!$result) {
+					$arr["returnCode"] = "1";
+					$arr["message"] = $conn->error;
+					echo json_encode($arr);
+				}  else {
+					if ($result->num_rows > 0) {
+						while($row = $result->fetch_assoc()) {
+							$roomID = $row["RoomID"];
+							$rooms_in_room_period_student["$roomID"] = array("RoomNumber" => $row["RoomNumber"], "AmountOfPeople" =>  $row["AmountOfPeople"]);
+					    }
+					}
+				}
+			}
+			foreach($room_period_student as $key=>$value){
+				if(isset($rooms_in_room_period_student["$key"])){
+					if($value < $rooms_in_room_period_student["$key"]["AmountOfPeople"]){
+						$arr["rooms"]["$key"] = $rooms_in_room_period_student["$key"]["RoomNumber"];
+					}
+				}
+			}
+		}
+		echo json_encode($arr);
 	}
 ?>
