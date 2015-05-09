@@ -22,6 +22,7 @@
 			<td>Name:</td><td><input id="name" type="text" class="text" placeholder="Last Name, First Name" /></td>
 			<td>RAM ID#: R</td><td><input id="RAM_ID" type="text" class="text" /></td>
           </tr>
+		  
           <tr>
 			<td>Address:</td><td><input id="address_street" type="text" class="text" placeholder="Number  Street  APT"/></td>
 			<td>Cell Phone:</td><td><input id="cell_phone" type="text" class="text"/></td>
@@ -40,6 +41,13 @@
 
           <td>E-mail:</td><td><input id="email" type="text" class="text" />@farmingdale.edu</td>
           <td>Age:</td><td><input id="age" type="text" class="text"/></td>
+		  </tr>
+		  
+		  <tr>
+		  <td>Password:</td><td><input id="password" type="password" class="text"/> </td>
+		  <td>Confirm Password:</td><td> <input id="confirmPass" type="password" class="text"/> </td>
+		  </tr>
+		  
         </table>
 		</form>
      <div class="p-container">
