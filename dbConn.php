@@ -1,6 +1,5 @@
 <?php
 	require 'credentials.php';
-
 	function getConnection(){
 		// Create connection
 		$connInfo = getCredentials();
