@@ -16,7 +16,8 @@
           </li>
           <div class="p-container">
               <input id="loginBtn" type="button" value="SIGN IN" >
-              <div class="clear"></div>
+              <div class="clear"></div> 
+              <span id="forgotPassLnk">Forgot Password</span>
           </div>
         </form>
         </div>

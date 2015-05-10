@@ -58,7 +58,7 @@
 		</form>
      <div class="p-container">
        
-         <input id="begHouAppBtn" class="submit" type="button" value="SUBMIT" name="name" />     
+         <input id="roomSelectSingle" class="submit" type="button" value="SUBMIT" name="name" />     
               <div class="clear"></div>
           </div>
       </div>

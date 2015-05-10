@@ -234,16 +234,98 @@ $(function(){
 		    },error: function(data) { 
 		        console.log(data);
 		    }
+		  });		  
+		}
+		return false;
+	})
+
+	$('#roomSelectSingle').click(function(){
+		var roomID = $('#roomSelect').val();
+		var funct = "SUBMITROOMSELECTIONSINGLE";
+		if(roomID != "-1"){
+			$.ajax({
+		    type: "POST",
+		    dataType: "json",
+		    url: "functions.php",
+		    data: { funct: funct, roomID: roomID },
+		    success: function(data) {
+		      console.log(data);
+		    },error: function(data) { 
+		        console.log(data);
+		    }
+		  });
+		}
+		return false;
+	})
+
+	$('#forgotPassLnk').click(function(){
+		window.location.replace("forgot_password.php");
+	})
+
+	$('#roomSelectSingle').click(function(){
+		var roomID = $('#roomSelect').val();
+		var funct = "SUBMITROOMSELECTIONSINGLE";
+		if(roomID != "-1"){
+			$.ajax({
+		    type: "POST",
+		    dataType: "json",
+		    url: "functions.php",
+		    data: { funct: funct, roomID: roomID },
+		    success: function(data) {
+		      console.log(data);
+		    },error: function(data) { 
+		        console.log(data);
+		    }
+		  });
+		}
+		return false;
+	})
+
+	$('#forgotPassBtn').click(function(){
+		var funct = "CHECKUSER";
+		var username = $("#username").val();
+		$.ajax({
+		    type: "POST",
+		    dataType: "json",
+		    url: "functions.php",
+		    data: { funct: funct, username: username },
+		    success: function(data) {
+		      if(data.returnCode == 0){
+		      	$("#fromTable").val(data.fromTable);
+		      	$("#securityQuestion").val(data.question);
+		      	$("#forgot-pass-form").addClass("hidden");
+		      	$("#confirm-forgot-pass-form").removeClass("hidden");
+		      }
+		    },error: function(data) { 
+		        console.log(data);
+		    }
 		  });
 		  return false;
-		}
 	})
-	$('#roomSelect').change(function(){
-		var buildingID = $("#buildingSelect").val();
-		var floorNumber = $("#floorSelect").val();
-		var suiteType = $("#suiteSelect").val();
-		var roomNumber = $('#roomSelect').val();
 
+	$('#confirmForgotPassBtn').click(function(){
+		var funct = "SUBMITNEWPASSWORD";
+		var username = $("#username").val();
+		var securityAnswer = $("#securityAnswer").val();
+		var newPassword = $("#newPassword").val();
+		var confirmNewPassword = $("#confirmNewPassword").val();
+		var fromTable = $("#fromTable").val();
+		if(newPassword == confirmNewPassword){
+			$.ajax({
+			    type: "POST",
+			    dataType: "json",
+			    url: "functions.php",
+			    data: { funct: funct, fromTable: fromTable, username: username,securityAnswer: securityAnswer, newPassword: newPassword },
+			    success: function(data) {
+			    	console.log(data);
+			    },error: function(data) { 
+			        console.log(data);
+			    }
+			});
+		} else{
+			alert("PASSWORDS MUST MATCH");
+		}
+		return false;
 	})
 })
 

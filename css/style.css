@@ -38,7 +38,7 @@ body{
  	font-family: 'Open Sans', sans-serif;
 
 }
-.login-form {
+.login-form, .forgot-pass-form, .confirm-forgot-pass-form {
 	background:#fff;
 	width:32%;
 	margin:9% auto 4% auto;

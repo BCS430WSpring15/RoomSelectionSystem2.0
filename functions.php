@@ -22,6 +22,15 @@
 		else if($_POST["funct"] == "RETRIEVEROOMS"){
 			retrieveRooms();
 		}
+		else if($_POST["funct"] == "SUBMITROOMSELECTIONSINGLE"){
+			submitRoomSelectionSingle();
+		}
+		else if($_POST["funct"] == "CHECKUSER"){
+			checkUser();
+		}
+		else if($_POST["funct"] == "SUBMITNEWPASSWORD"){
+			submitNewPassword();
+		}
 	}
 
 	function validateUserLogin() {
@@ -35,7 +44,7 @@
 		    // output data of each row
 		    $row = $result->fetch_assoc();
 		    $staffID = $row["StaffID"];
-		    $sql = 'SELECT * FROM STAFF_PASSWORD WHERE StaffID = '.$staffID.' AND Password = "'.$password.'";';
+		    $sql = 'SELECT * FROM STAFF_PASSWORD WHERE StaffID = '.$staffID.' AND Password = "'.md5($password).'";';
 		    $result = $conn->query($sql);
 		    if ($result->num_rows > 0) {
 				$arr = array( "returnCode" => "0", "message" => "Success");
@@ -52,7 +61,7 @@
 				    // output data of each row
 				    $row = $result->fetch_assoc();
 				    $staffID = $row["StaffID"];
-				    $sql = 'SELECT * FROM STAFF_PASSWORD WHERE StaffID = '.$staffID.' AND Password = "'.$password.'";';
+				    $sql = 'SELECT * FROM STAFF_PASSWORD WHERE StaffID = '.$staffID.' AND Password = "'.md5($password).'";';
 				    $result = $conn->query($sql);
 				    if ($result->num_rows > 0) {
 						$arr = array( "returnCode" => "0", "message" => "Success" );
@@ -69,7 +78,7 @@
 					    // output data of each row
 					    $row = $result->fetch_assoc();
 					    $studentID = $row["StudentID"];
-					    $sql = 'SELECT * FROM STUDENT_PASSWORD WHERE StudentID = '.$studentID.' AND Password = "'.$password.'";';
+					    $sql = 'SELECT * FROM STUDENT_PASSWORD WHERE StudentID = '.$studentID.' AND Password = "'.md5($password).'";';
 					    $result = $conn->query($sql);
 					    if ($result->num_rows > 0) {
 							$arr = array( "returnCode" => "0", "message" => "Success" );
@@ -116,7 +125,7 @@
 			echo json_encode($arr);
 		} else {
 			$studentID = $conn->insert_id;
-			$sql = 'INSERT INTO `STUDENT_PASSWORD` (`StudentID`, `SecurityQuestionID`, `Password`, `SecurityAnswer`) VALUES ("'.$studentID.'", "'.$_POST["securityQuestionID"].'", "'.$_POST["password"].'", "'.$_POST["securityQuestionAnswer"].'");';
+			$sql = 'INSERT INTO `STUDENT_PASSWORD` (`StudentID`, `SecurityQuestionID`, `Password`, `SecurityAnswer`) VALUES ("'.$studentID.'", "'.$_POST["securityQuestionID"].'", "'.md5($_POST["password"]).'", "'.$_POST["securityQuestionAnswer"].'");';
 			$result = $conn->query($sql);
 			if (!$result) {
 				$arr = array( "returnCode" => "1", "message" => $conn->error );
@@ -310,5 +319,110 @@
 			}
 		}
 		echo json_encode($arr);
+	}
+
+	function submitRoomSelectionSingle(){
+		$conn = getConnection();
+		$sql = 'INSERT INTO `PERIOD_ROOM_STUDENT` (`PeriodID`, `RoomID`, `StudentID`) VALUES ((SELECT `PeriodID` FROM `PERIOD` WHERE `IsCurrent` = 1), "'.$_POST["roomID"].'", 4);';
+		$result = $conn->query($sql);
+		if (!$result) {
+			$arr = array( "returnCode" => "1", "message" => $conn->error );
+			echo json_encode($arr);
+			exit();
+		} else {
+			$arr = array("returnCode" => "0", "message" => "Success" );
+			echo json_encode($arr);
+		}
+	}
+	function checkUser(){
+		$username = $_POST["username"];
+		$conn = getConnection();
+		$sql = 'SELECT Q.`Question` FROM `STAFF` S JOIN `SECURITY_QUESTION` Q ON S.`SecurityQuestionID` = Q.`SecurityQuestionID` WHERE S.`StaffID` = (SELECT `StaffID` FROM `RESIDENCE_DIRECTOR` WHERE `Email` = "'.$username.'");';
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+		    $row = $result->fetch_assoc();
+	    	$question = $row["Question"];
+			$arr = array( "returnCode" => "0", "message" => "Success", "question" => $question, "fromTable" => "1");
+			//fromTable => "1" meaning it was found in the RESIDENCE_DIRECTOR table
+			echo json_encode($arr);
+			exit();
+		}
+
+		$sql = 'SELECT Q.`Question` FROM `STAFF` S JOIN `SECURITY_QUESTION` Q ON S.`SecurityQuestionID` = Q.`SecurityQuestionID` WHERE S.`StaffID` = (SELECT `StaffID` FROM `RESIDENCE_ASSISTANT` WHERE `Email` = "'.$username.'");';
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			$row = $result->fetch_assoc();
+	    	$question = $row["Question"];
+			$arr = array( "returnCode" => "0", "message" => "Success", "question" => $question, "fromTable" => "2");
+			//fromTable => "2" meaning it was found in the RESIDENCE_ASSISTANT table
+			echo json_encode($arr);
+			exit();
+		}
+
+		$sql = 'SELECT Q.`Question` FROM `STUDENT_PASSWORD` S JOIN `SECURITY_QUESTION` Q ON S.`SecurityQuestionID` = Q.`SecurityQuestionID` WHERE S.`StudentID` = (SELECT `StudentID` FROM `STUDENT` WHERE `SchoolEMail` = "'.$username.'");';
+		$result = $conn->query($sql);
+		if ($result->num_rows > 0) {
+			$row = $result->fetch_assoc();
+	    	$question = $row["Question"];
+			$arr = array( "returnCode" => "0", "message" => "Success", "question" => $question, "fromTable" => "3");
+			//fromTable => "3" meaning it was found in the STUDENT table
+			echo json_encode($arr);
+			exit();
+		} else {
+			$arr = array( "returnCode" => "1", "message" => "Security question for user not found" );
+			echo json_encode($arr);
+		}
+	}
+
+	function submitNewPassword(){
+		$fromTable = $_POST["fromTable"];
+		$username = $_POST["username"];
+		$conn = getConnection();
+		$sql = "";
+		$ID = '';
+		$sqlN = '';
+		if($fromTable == 1){
+			$sql = 'SELECT S.`SecurityAnswer`, S.`StaffID` AS ID FROM `STAFF` S JOIN `RESIDENCE_DIRECTOR` R ON S.`StaffID` = R.`StaffID` WHERE `Email` = "'.$username.'";';
+			$sqlN = 'UPDATE `STAFF_PASSWORD` SET `Password` = "%subs1%" WHERE `StaffID` = "%subs2%"';
+		} elseif ($fromTable == 2){
+			$sql = 'SELECT S.`SecurityAnswer`, S.`StaffID` AS ID FROM `STAFF` S JOIN `RESIDENCE_ASSISTANT` R ON S.`StaffID` = R.`StaffID` WHERE `Email` = "'.$username.'";';
+			$sqlN = 'UPDATE `STAFF_PASSWORD` SET `Password` = "%subs1%" WHERE `StaffID` = "%subs2%"';
+		} elseif ($fromTable == 3){
+			$sql = 'SELECT P.`SecurityAnswer`, S.`StudentID` AS ID FROM `STUDENT_PASSWORD` P JOIN `STUDENT` S ON S.`StudentID` = P.`StudentID` WHERE `SchoolEMail` = "'.$username.'"';
+			$sqlN = 'UPDATE `STUDENT_PASSWORD` SET `Password` = "%subs1%" WHERE `StudentID` = "%subs2%"';
+		}		
+		$result = $conn->query($sql);
+		if ($result) {
+			if ($result->num_rows > 0) {
+				$row = $result->fetch_assoc();
+				$answer = strtolower($row["SecurityAnswer"]);
+				$ID = $row["ID"];
+				if($answer == strtolower($_POST["securityAnswer"])){
+
+					$sqlN = str_replace("%subs1%", md5($_POST["newPassword"]), $sqlN);
+					$sqlN = str_replace("%subs2%", $ID, $sqlN);
+
+					$result = $conn->query($sqlN);
+					if (!$result) {
+						$arr = array( "returnCode" => "4", "message" => $conn->error );
+						echo json_encode($arr);
+						exit();
+					} else {
+						$arr = array( "returnCode" => "0", "message" => "Password changed succefully");
+						echo json_encode($arr);
+					}
+					
+				} else{
+					$arr = array( "returnCode" => "2", "message" => "Invalid Answer" );
+					echo json_encode($arr);
+				}
+			} else{
+				$arr = array( "returnCode" => "1", "message" => "Security question for user not found" );
+				echo json_encode($arr);
+			}
+		} else {
+			$arr = array( "returnCode" => "4", "message" => $conn->error );
+			echo json_encode($arr);
+		}
 	}
 ?>

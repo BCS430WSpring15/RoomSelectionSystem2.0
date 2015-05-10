@@ -201,6 +201,8 @@ ul#menu li a:hover, ul#menu li.selected a, ul#menu li.selected a:hover
 
 #footer
 { width: 878px;
+  position:relative;
+  bottom:0;
   font: normal 100% 'lucida sans unicode', arial, sans-serif;
   height: 33px;
   padding: 24px 0 5px 0;
@@ -208,7 +210,9 @@ ul#menu li a:hover, ul#menu li.selected a, ul#menu li.selected a:hover
   background: #29425E url(footer.png) repeat-x;
   color: #FFF;
   text-transform: uppercase;
-  letter-spacing: 0.1em;}
+  letter-spacing: 0.1em;
+  
+}
 
 #footer a
 { color: #FFF;
@@ -318,7 +322,7 @@ LOGIN FOR STARTS HERE
 *
 *
 */
-  .login-form {
+  .login-form, .forgot-pass-form, .confirm-forgot-pass-form{
   background:#546802;
   width:32%;
   margin:7% auto 4% auto;
@@ -328,6 +332,18 @@ LOGIN FOR STARTS HERE
 .head {
   position: absolute;
   top:-15%;
+  left: 35%;
+}
+
+.forgot-pass-form .head {
+  position: absolute;
+  top:-20%;
+  left: 35%;
+}
+
+.confirm-forgot-pass-form .head {
+  position: absolute;
+  top:-12%;
   left: 35%;
 }
 
@@ -347,7 +363,7 @@ form {
   padding:5% 2.5em 5% 2.5em;
 }
 
-#loginForm input[type="text"], #loginForm input[type="password"] {
+#loginForm input[type="text"], #loginForm input[type="password"], #forgotPassForm input[type="text"], #forgotPassForm input[type="password"],  #confirmForgotPassForm input[type="text"], #confirmForgotPassForm input[type="password"] {
   font-family: 'Open Sans', sans-serif;
   width:80%;
   padding:0.7em 2em 0.7em 1.7em;
@@ -387,6 +403,10 @@ form li{
 
 }
 
+.hidden{
+  display:none;
+}
+
 li {display: block;}
 nav.vertical ul li{ display:block;}/* vertical menu */
 nav.horizontal ul li{ display: inline-block;}/* horizontal menu */
@@ -419,7 +439,7 @@ input[type="submit"]:hover{
   background: #C2C0AD;
 }
 
-#loginBtn{
+#loginBtn, #forgotPassBtn, #confirmForgotPassBtn{
   /*float:right;*/
   margin-top:3px;  
   display: inline-block;
@@ -443,6 +463,6 @@ input[type="submit"]:hover{
   -moz-border-radius: 0.3em;
   filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffe49e', endColorstr='#e27f00',GradientType=0 ); /* IE6-9 */
 }
-#loginBtn:hover{
+#loginBtn:hover, #forgotPassBtn:hover, #confirmForgotPassBtn:hover{
   background: #C2C0AD;
 }
