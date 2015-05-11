@@ -38,7 +38,7 @@
         <table style="width:100%;">
           <tr><td>RAM ID#:</td><td><input id="student" type="text" class="text" disabled="true" <?php echo 'value="'.$_SESSION["user"]["RamID"].'"'; ?> /></td></tr>
           <tr><td>Name:</td><td><input id="reason" type="text" class="text" disabled="true" <?php echo 'value="'.$_SESSION["user"]["LastName"].", ".$_SESSION["user"]["FirstName"].'"'; ?> /></td></tr>
-		   <tr><td colspan="2"><textarea rows="4" cols="75" id="medicalconcerns" disabled="true"></textarea></td></tr>
+		   <tr><td colspan="2"><textarea rows="4" cols="75" id="medicalconcerns" disabled="true">There are no bills due on your account</textarea></td></tr>
         </table>
     <div class="sidebar"></div>
     </div>		
