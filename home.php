@@ -29,12 +29,22 @@
       </div>
     </div>
     <div id="site_content">
-      <div class="sidebar">
-      </div>
       <div id="content">
         <!-- insert the page content here -->
-        <center><h1>Welcome to the Room Selection System</h1></center>
-        <center><h2>Please select one of the options from the menu</2></center>
+        <!-- Start WOWSlider.com BODY section --> <!-- add to the <body> of your page -->
+        <div id="wowslider-container1">
+        <div class="ws_images"><ul>
+          <li><img src="data1/images/1.jpg" alt="" title="" id="wows1_0"/></li>
+          <li><img src="data1/images/2.jpg" alt="" title="" id="wows1_1"/></li>
+          <li><img src="data1/images/3.jpg" alt="" title="" id="wows1_2"/></li>
+          <li><img src="data1/images/4.jpg" alt="content slider" title="" id="wows1_3"/></li>
+          <li><img src="data1/images/5.jpg" alt="" title="" id="wows1_4"/></li>
+        </ul></div>
+        <div class="ws_shadow"></div>
+        </div>  
+        <script type="text/javascript" src="engine1/wowslider.js"></script>
+        <script type="text/javascript" src="engine1/script.js"></script>
+        <!-- End WOWSlider.com BODY section -->
       </div>
     </div>
 <?php require 'footer.php'; ?>

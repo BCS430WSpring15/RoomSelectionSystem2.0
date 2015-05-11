@@ -138,7 +138,7 @@ $(function(){
 	})
 
 	$('#rooSelForBtn').click(function(){
-		alert( "Success" );
+		//alert( "Success" );
 		var funct = "ROOMSELECTIONFORM";
 		var isproxyoption = "0";
 		if ($("input[type='checkbox'][name='isproxyoption']").is(":checked")){
@@ -258,7 +258,7 @@ $(function(){
 		    url: "functions.php",
 		    data: { funct: funct, buildingID: buildingID, floorNumber: floorNumber, suiteType: suiteType },
 		    success: function(data) {
-		      console.log(data);
+		      //console.log(data);
 		      $('#roomSelect').prop('disabled', false);
 		      if(data.length > 0){
 		      	$('#roomSelect').empty();
@@ -285,7 +285,10 @@ $(function(){
 		    url: "functions.php",
 		    data: { funct: funct, roomID: roomID },
 		    success: function(data) {
-		      console.log(data);
+		    	if(data.returnCode == 0){
+		    		alert(data.message);
+		    		document.getElementById("go_to_home").click();
+		    	}
 		    },error: function(data) { 
 		        console.log(data);
 		    }
@@ -296,25 +299,6 @@ $(function(){
 
 	$('#forgotPassLnk').click(function(){
 		//window.location.replace("forgot_password.php");
-	})
-
-	$('#roomSelectSingle').click(function(){
-		var roomID = $('#roomSelect').val();
-		var funct = "SUBMITROOMSELECTIONSINGLE";
-		if(roomID != "-1"){
-			$.ajax({
-		    type: "POST",
-		    dataType: "json",
-		    url: "functions.php",
-		    data: { funct: funct, roomID: roomID },
-		    success: function(data) {
-		      console.log(data);
-		    },error: function(data) { 
-		        console.log(data);
-		    }
-		  });
-		}
-		return false;
 	})
 
 	$('#forgotPassBtn').click(function(){

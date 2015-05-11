@@ -9,6 +9,11 @@
   <script src="scripts/jquery.min.js"></script>
   <script src="scripts/jquery-ui.js"></script>
 
+  <!-- Start WOWSlider.com HEAD section -->
+  <link rel="stylesheet" type="text/css" href="engine1/style.css" />
+  <script type="text/javascript" src="engine1/jquery.js"></script>
+  <!-- End WOWSlider.com HEAD section -->
+
   <script type="application/x-javascript"> addEventListener("load", function() { setTimeout(hideURLbar, 0); }, false); function hideURLbar(){ window.scrollTo(0,1); } </script>
   <script type="text/javascript" src="scripts/app.js" ></script>
   <!--webfonts-->

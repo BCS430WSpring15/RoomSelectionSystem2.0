@@ -81,4 +81,5 @@
               <div class="clear"></div>
           </div>
       </div>
+      <a id="go_to_home" href="home.php" class="hidden"></a>
 <?php require 'footer.php'; ?>

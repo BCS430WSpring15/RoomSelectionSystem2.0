@@ -138,7 +138,7 @@
 			echo json_encode($arr);
 		} else {
 			$_SESSION["isNew"] = "false";
-			$arr = array("returnCode" => "0", "message" => "Application submited succesfully" );
+			$arr = array("returnCode" => "0", "message" => "Application submited successfully" );
 			echo json_encode($arr);
 		}
 	}
@@ -178,7 +178,7 @@
 			if (!$result) {
 				$arr = array( "returnCode" => "1", "message" => $conn->error );
 			} else{
-				$arr = array("returnCode" => "0", "message" => "Application submited succesfully" );
+				$arr = array("returnCode" => "0", "message" => "Application submited successfully" );
 			}
 			echo json_encode($arr);
 		}
@@ -378,7 +378,7 @@
 			echo json_encode($arr);
 			exit();
 		} else {
-			$arr = array("returnCode" => "0", "message" => "Success" );
+			$arr = array("returnCode" => "0", "message" => "Room selected successfully" );
 			echo json_encode($arr);
 		}
 	}
