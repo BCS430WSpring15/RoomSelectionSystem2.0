@@ -1,31 +1,42 @@
-<?php require 'header.php'; require 'dbConn.php'; ?>
+<?php require 'header.php'; require 'dbConn.php';
+  session_start();
+  if(isset($_SESSION["userType"]) && !empty($_SESSION["userType"]) && isset($_SESSION["user"]) && !empty($_SESSION["user"])){
+    header('Location: home.php');
+  }
+?>
       <div id="menubar">
         <ul id="menu">
           <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
-          <li><a href="home.php">Home</a></li>
-          <li class="selected"><a>Housing Application</a></li>
-          <li><a href="remove_student.php">Remove Student</a></li>
-          <li><a href="financial_status.php">Financial Status</a></li>
-          <li><a href="room_selection.php">Room Selection</a></li>
+          <li><a href="index.php">Home</a></li>
+          <li class="selected"><a>Sign Up</a></li>
         </ul>
       </div>
     </div>
     <div id="content_header"></div>
     <div id="site_content">
+    <h1>Sign Up Students</h1>
         <form name="beginingHousingAppForm" action="" id="beginingHousingAppForm">
-        <table>
+        <table style="width:100%;">
           <tr>
 			<td>Major:</td><td><input id="major" type="text" class="text" /></td>
-			<td>Class Status:</td><td><input id="class_status" type="text" class="text" /></td>
+			<td>Class Status:</td><td>
+        <select id="class_status">
+            <option value='-1'>---SELECT---</option>
+            <option value='Freshman'>Freshman</option>
+            <option value='Sophomore'>Sophomore</option>
+            <option value='Junior'>Junior</option>
+            <option value='Senior'>Senior</option>
+        </select>
+      </td>
           </tr>
           <tr>
-			<td>Name:</td><td><input id="name" type="text" class="text" placeholder="Last Name, First Name" /></td>
-			<td>RAM ID#: R</td><td><input id="RAM_ID" type="text" class="text" /></td>
+			<td>Name: <span class="required">*</span></td><td><input id="name" type="text" class="text" placeholder="Last Name, First Name" /></td>
+			<td>RAM ID#: R <span class="required">*</span></td><td><input id="RAM_ID" type="text" class="text" /></td>
           </tr>
 		  
           <tr>
-			<td>Address:</td><td><input id="address_street" type="text" class="text" placeholder="Number  Street  APT"/></td>
-			<td>Cell Phone:</td><td><input id="cell_phone" type="text" class="text"/></td>
+			<td>Address: <span class="required">*</span></td><td><input id="address_street" type="text" class="text" placeholder="Number  Street  APT"/></td>
+			<td>Cell Phone: <span class="required">*</span></td><td><input id="cell_phone" type="text" class="text"/></td>
           </tr>
      
           <tr>
@@ -34,17 +45,17 @@
           </tr>
        
           <tr>
-			<td>Date of Birth:</td><td><input id="birthdate" type="text" class="text" placeholder="YYYY-MM-DD"/></td>
-			<td>Gender:</td> <td><input type="radio" name="gender" value="Male"> Male
+			<td>Date of Birth: <span class="required">*</span></td><td><input id="birthdate" type="text" class="text" placeholder="YYYY-MM-DD"/></td>
+			<td>Gender: <span class="required">*</span></td> <td><input type="radio" name="gender" value="Male"> Male
             <input type="radio" name="gender" value="Female"> Female </td>
           </tr>
 
-          <td>E-mail:</td><td><input id="email" type="text" class="text" />@farmingdale.edu</td>
-          <td>Age:</td><td><input id="age" type="text" class="text"/></td>
+          <td>E-mail: <span class="required">*</span></td><td><input id="email" type="text" class="text" />@farmingdale.edu</td>
+          <td>Personal Email:</td><td><input id="personalEmail" type="text" class="text"/></td>
 		  </tr>
 
       <tr>
-      <td>Security Question:</td><td>
+      <td>Security Question: <span class="required">*</span></td><td>
         <select id="secQuest">
           <option value='-1'>---SELECT---</option>
           <?php
@@ -61,20 +72,23 @@
             ?>
         </select>
       </td>
-      <td>Answer:</td><td> <input id="secQueAns" class="text"/> </td>
+      <td>Answer: <span class="required">*</span></td><td> <input id="secQueAns" class="text"/> </td>
       </tr>
 		  
 		  <tr>
-		  <td>Password:</td><td><input id="password" type="password" class="text"/> </td>
-		  <td>Confirm Password:</td><td> <input id="confirmPass" type="password" class="text"/> </td>
+		  <td>Password: <span class="required">*</span></td><td><input id="password" type="password" class="text"/> </td>
+		  <td>Confirm Password: <span class="required">*</span></td><td> <input id="confirmPass" type="password" class="text"/> </td>
 		  </tr>
 		  
         </table>
-		</form>
-     <div class="p-container">
+        <div class="p-container">
        
          <input id="begHouAppBtn" class="submit" type="button" value="SUBMIT" name="name" />     
               <div class="clear"></div>
+              <span id="errorSignUp" class="displayError hidden"></span>
           </div>
+		</form>
+
       </div>
+      <a id="go_to_login" href="login.php" class="hidden"></a>
 <?php require 'footer.php'; ?>

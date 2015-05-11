@@ -13,6 +13,7 @@
           <div class="p-container">
               <input id="forgotPassBtn" type="button" value="SUBMIT" >
               <div class="clear"></div>
+              <span id="errorForgot" class="displayError hidden"></span>
           </div>
         </form>
         </div>
@@ -41,8 +42,10 @@
           <div class="p-container">
               <input id="confirmForgotPassBtn" type="button" value="SUBMIT" >
               <div class="clear"></div>
+              <span id="errorForgotConfirm" class="displayError hidden"></span>
           </div>
         </form>
         </div>
       </div>
+      <a id="to_login" href="login.php" class="hidden"></a>
 <?php require 'footer.php'; ?>

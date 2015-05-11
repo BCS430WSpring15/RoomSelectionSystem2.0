@@ -1,4 +1,9 @@
-<?php require 'header.php'; ?>
+<?php require 'header.php';
+  session_start();
+  if(!isset($_SESSION["userType"]) && empty($_SESSION["userType"]) && !isset($_SESSION["user"]) && empty($_SESSION["user"])){
+    header('Location: login.php');
+  }
+?>
       <div id="menubar">
         <ul id="menu">
           <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->

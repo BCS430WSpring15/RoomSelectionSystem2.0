@@ -1,5 +1,12 @@
  <?php
 	require 'dbConn.php';
+	session_start();
+	/*
+		userType in session
+		1- RESIDENCE_DIRECTOR
+		2- RESIDENCE_ASSISTANT
+		3- STUDENT
+	*/
 	if (isset($_POST["funct"]) && !empty($_POST["funct"])) {
 		if($_POST["funct"] == "VALUSER"){
 			validateUserLogin();
@@ -47,6 +54,8 @@
 		    $sql = 'SELECT * FROM STAFF_PASSWORD WHERE StaffID = '.$staffID.' AND Password = "'.md5($password).'";';
 		    $result = $conn->query($sql);
 		    if ($result->num_rows > 0) {
+		    	$_SESSION["userType"] = "1";
+		    	$_SESSION["user"] = $row;
 				$arr = array( "returnCode" => "0", "message" => "Success");
 				echo json_encode($arr);
 			} else {
@@ -64,6 +73,8 @@
 				    $sql = 'SELECT * FROM STAFF_PASSWORD WHERE StaffID = '.$staffID.' AND Password = "'.md5($password).'";';
 				    $result = $conn->query($sql);
 				    if ($result->num_rows > 0) {
+				    	$_SESSION["userType"] = "2";
+		    			$_SESSION["user"] = $row;
 						$arr = array( "returnCode" => "0", "message" => "Success" );
 						echo json_encode($arr);
 					} else {
@@ -81,8 +92,24 @@
 					    $sql = 'SELECT * FROM STUDENT_PASSWORD WHERE StudentID = '.$studentID.' AND Password = "'.md5($password).'";';
 					    $result = $conn->query($sql);
 					    if ($result->num_rows > 0) {
-							$arr = array( "returnCode" => "0", "message" => "Success" );
-							echo json_encode($arr);
+					    	$_SESSION["userType"] = "3";
+		    				$_SESSION["user"] = $row;
+					    	$sql = 'SELECT * FROM `HOUSING_APPLICATION` WHERE `StudentID` = "'.$studentID.'"';
+					    	$result = $conn->query($sql);
+					    	if(!$result){
+					    		$arr = array( "returnCode" => "5", "message" => $conn->error );
+								echo json_encode($arr);
+					    	} else {
+					    		if ($result->num_rows > 0) {
+					    			$_SESSION["isNew"] = "false";
+					    			$arr = array( "returnCode" => "0", "message" => "Success", "isNew" => "false");
+									echo json_encode($arr);
+					    		} else {
+					    			$_SESSION["isNew"] = "true";
+					    			$arr = array( "returnCode" => "0", "message" => "Success", "isNew" => "true");
+									echo json_encode($arr);
+					    		}
+					    	}
 						} else {
 							$arr = array( "returnCode" => "1", "message" => "Invalid password" );
 							echo json_encode($arr); 
@@ -96,15 +123,22 @@
 	}
 
     function submitHousingApplication(){
+    	if($_POST["emergcontact"] == "" || $_POST["emergcontactphone"] == "" || (!isset($_POST["smoker"]) && empty($_POST["smoker"])) || (!isset($_POST["riser"]) && empty($_POST["riser"])) || (!isset($_POST["sleep"]) && empty($_POST["sleep"])) || (!isset($_POST["quietly"]) && empty($_POST["quietly"])) || (!isset($_POST["consider"]) && empty($_POST["consider"])) || $_POST["studentsignature"] == "" || $_POST["studentsignaturedate"] == ""){
+    		$arr = array( "returnCode" => "3", "message" => "Missing required fields" );
+			echo json_encode($arr);
+			exit();
+    	}
+
     	$conn = getConnection();
     	$date = date("Y-m-d");
-		$sql = 'INSERT INTO `HOUSING_APPLICATION` (`StudentID`, `HousingRequestDate`, `EmergencyContact`,`EmergencyContactPhone`,`RoommatePreference`,`Smoke`, `EarlyRiser`, `SleepEarlyAtNight`, `StudyQuietlyLate`,`ConsiderToBeAPerson`, `MedicalConcerns`, `StudentSignature`,`StudentSignatureDate`, `ReleaseInfoToRommate`, `GuardianSignature`,`GuardianSignatureDate`,`PeriodID`) VALUES (2,"'.$date.'","'.$_POST["emergcontact"].'","'.$_POST["emergcontactphone"].'","'.$_POST["roommatepreference"].'","'.$_POST["smoker"].'","'.$_POST["riser"].'","'.$_POST["sleep"].'","'.$_POST["quietly"].'","'.$_POST["consider"].'","'.$_POST["medicalconcerns"].'","'.$_POST["studentsignature"].'","'.$_POST["studentsignaturedate"].'","'.$_POST["releaseinfo"].'","'.$_POST["guardiansignature"].'","'.$_POST["guardiansignaturedate"].'",2);';
+		$sql = 'INSERT INTO `HOUSING_APPLICATION` (`StudentID`, `HousingRequestDate`, `EmergencyContact`,`EmergencyContactPhone`,`RoommatePreference`,`Smoke`, `EarlyRiser`, `SleepEarlyAtNight`, `StudyQuietlyLate`,`ConsiderToBeAPerson`, `MedicalConcerns`, `StudentSignature`,`StudentSignatureDate`, `ReleaseInfoToRommate`, `GuardianSignature`,`GuardianSignatureDate`,`PeriodID`) VALUES ("'.$_SESSION["user"]["StudentID"].'","'.$date.'","'.$_POST["emergcontact"].'","'.$_POST["emergcontactphone"].'","'.$_POST["roommatepreference"].'","'.$_POST["smoker"].'","'.$_POST["riser"].'","'.$_POST["sleep"].'","'.$_POST["quietly"].'","'.$_POST["consider"].'","'.$_POST["medicalconcerns"].'","'.$_POST["studentsignature"].'","'.$_POST["studentsignaturedate"].'","'.$_POST["releaseinfo"].'","'.$_POST["guardiansignature"].'","'.$_POST["guardiansignaturedate"].'",2);';
 		$result = $conn->query($sql);
 		if (!$result) {
 			$arr = array( "returnCode" => "1", "message" => $conn->error );
 			echo json_encode($arr);
 		} else {
-			$arr = array("returnCode" => "0", "message" => "Success" );
+			$_SESSION["isNew"] = "false";
+			$arr = array("returnCode" => "0", "message" => "Application submited succesfully" );
 			echo json_encode($arr);
 		}
 	}
@@ -114,11 +148,25 @@
 			$arr["$key"] = "$value";
 		}*/
 		//Check if exists first
+		if($_POST["name"] == "" || $_POST["RAM_ID"] == "" || $_POST["address_street"] == "" || $_POST["cell_phone"] == "" || $_POST["address_state"] == "" || $_POST["birthdate"] == "" || $_POST["gender"] == "" || $_POST["email"] == "" || $_POST["password"] == "" || $_POST["confirmPass"] == "" || $_POST["securityQuestionID"] == "-1" || $_POST["securityQuestionAnswer"] == ""){
+			$arr = array( "returnCode" => "3", "message" => "Missing required fields" );
+			echo json_encode($arr);
+			exit();
+		}
+		if($_POST["password"] != $_POST["confirmPass"]){
+			$arr = array( "returnCode" => "2", "message" => "Passwords must match" );
+			echo json_encode($arr);
+			exit();
+		}
 		$conn = getConnection();
 		$name_last_name = $pieces = explode(",", $_POST["name"]);
 		$address = $_POST["address_street"].", ".$_POST["address_state"];
 		$email = $_POST["email"]."@farmingdale.edu";
-		$sql = 'INSERT INTO `RSS`.`STUDENT` (`FirstName`, `LastName`, `CellPhone`, `HomePhone`, `DateOfBirth`, `Gender`, `Address`, `SchoolEMail`) VALUES ("'.$name_last_name[1].'","'.$name_last_name[0].'","'.$_POST["cell_phone"].'","'.$_POST["home_phone"].'","'.$_POST["birthdate"].'","'.$_POST["gender"].'","'.$address.'","'.$email.'");';
+		$personalEmail = 'NULL';
+		if($_POST["personalEmail"] != ""){
+			$personalEmail = '"'.$_POST["personalEmail"].'"';
+		}
+		$sql = 'INSERT INTO `STUDENT` (`FirstName`, `LastName`, `RamID`, `CellPhone`, `HomePhone`, `DateOfBirth`, `Gender`, `Address`, `SchoolEMail`, `PersonalEMail`) VALUES ("'.$name_last_name[1].'","'.$name_last_name[0].'", "'.$_POST["RAM_ID"].'", "'.$_POST["cell_phone"].'","'.$_POST["home_phone"].'","'.$_POST["birthdate"].'","'.$_POST["gender"].'","'.$address.'","'.$email.'", '.$personalEmail.');';
 		$result = $conn->query($sql);
 		if (!$result) {
 			$arr = array( "returnCode" => "1", "message" => $conn->error );
@@ -130,18 +178,18 @@
 			if (!$result) {
 				$arr = array( "returnCode" => "1", "message" => $conn->error );
 			} else{
-				$arr = array("returnCode" => "0", "message" => "Success" );
+				$arr = array("returnCode" => "0", "message" => "Application submited succesfully" );
 			}
 			echo json_encode($arr);
 		}
 	}
 
 	function submitRoomSelectionForm(){
-		$arr = array( "returnCode" => "55", "message" => "Some message" );
+		//$arr = array( "returnCode" => "55", "message" => "Some message" );
 		/*foreach($_POST as $key=>$value){
 			$arr["$key"] = "$value";
 		}*/
-		$conn = getConnection();
+		/*$conn = getConnection();
 		if($_POST["isproxyoption"] == "0" && $_POST["rommatei"] == ""){
 			$periodID = "";
 			$roomID = "";
@@ -217,7 +265,7 @@
 			$periodID = "";
 			$roomID = "";
 			$periodDescription = "";
-		}
+		}*/
 	}
 
 	function retrieveFloors(){
@@ -323,7 +371,7 @@
 
 	function submitRoomSelectionSingle(){
 		$conn = getConnection();
-		$sql = 'INSERT INTO `PERIOD_ROOM_STUDENT` (`PeriodID`, `RoomID`, `StudentID`) VALUES ((SELECT `PeriodID` FROM `PERIOD` WHERE `IsCurrent` = 1), "'.$_POST["roomID"].'", 4);';
+		$sql = 'INSERT INTO `PERIOD_ROOM_STUDENT` (`PeriodID`, `RoomID`, `StudentID`) VALUES ((SELECT `PeriodID` FROM `PERIOD` WHERE `IsCurrent` = 1), "'.$_POST["roomID"].'", "'.$_SESSION["user"]["StudentID"].'");';
 		$result = $conn->query($sql);
 		if (!$result) {
 			$arr = array( "returnCode" => "1", "message" => $conn->error );
@@ -369,7 +417,7 @@
 			echo json_encode($arr);
 			exit();
 		} else {
-			$arr = array( "returnCode" => "1", "message" => "Security question for user not found" );
+			$arr = array( "returnCode" => "1", "message" => "User name not found" );
 			echo json_encode($arr);
 		}
 	}
@@ -381,6 +429,12 @@
 		$sql = "";
 		$ID = '';
 		$sqlN = '';
+		if($_POST["newPassword"] != $_POST["confirmNewPassword"]){
+			$arr = array( "returnCode" => "5", "message" => "Passwords must match" );
+			echo json_encode($arr);
+			exit();
+		}
+
 		if($fromTable == 1){
 			$sql = 'SELECT S.`SecurityAnswer`, S.`StaffID` AS ID FROM `STAFF` S JOIN `RESIDENCE_DIRECTOR` R ON S.`StaffID` = R.`StaffID` WHERE `Email` = "'.$username.'";';
 			$sqlN = 'UPDATE `STAFF_PASSWORD` SET `Password` = "%subs1%" WHERE `StaffID` = "%subs2%"';

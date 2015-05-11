@@ -466,3 +466,92 @@ input[type="submit"]:hover{
 #loginBtn:hover, #forgotPassBtn:hover, #confirmForgotPassBtn:hover{
   background: #C2C0AD;
 }
+
+#forgotPassLnk a{
+  margin-top:3px;
+  text-decoration: none !important;
+  display: inline-block;
+  color: white;
+  font-size:12px;
+  padding:10px 10px;
+  font-weight:600;
+  transition: 0.1s all;
+  -webkit-transition: 0.1s all;
+  -moz-transition: 0.1s all;
+  -o-transition: 0.1s all;
+  cursor: pointer;
+  outline: none;
+  margin:0 auto;
+  font-family: 'Open Sans', sans-serif;
+  border:none;
+  border-radius: 0.3em;
+  -webkit-border-radius: 0.3em;
+  -o- border-radius: 0.3em;
+  -moz-border-radius: 0.3em;
+  ilter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffe49e', endColorstr='#e27f00',GradientType=0 ); /* IE6-9 */
+}
+
+.displayError{
+  margin-bottom:25px;
+  width:100%;
+  background:#E34949;
+  border-radius: 0.2em;
+  -webkit-border-radius: 0.3em;
+  -o- border-radius: 0.3em;
+  -moz-border-radius: 0.3em;
+  font-family: 'Open Sans', sans-serif;
+  padding:0.3em 2em 0.3em 2em;
+  color: black;
+  font-size:14px;
+  outline: none;
+  font-weight:600;
+}
+
+#forgotPassBtn, #confirmForgotPassBtn, #begHouAppBtn, #houAppBtn{
+  margin-bottom: 20px;
+}
+
+.required{
+  color: red;
+}
+
+#medicalconcerns{
+  width: 98%;
+  resize:none;
+}
+
+.conditionText{
+  color: black;
+  text-align: justify;
+}
+
+.underline{
+  text-decoration: underline;
+}
+
+.removeRoom a{
+  margin-top:3px;
+  text-decoration: none !important;
+  display: inline-block;
+  color: red;
+  font-size:12px;
+  font-weight:600;
+  transition: 0.1s all;
+  -webkit-transition: 0.1s all;
+  -moz-transition: 0.1s all;
+  -o-transition: 0.1s all;
+  cursor: pointer;
+  outline: none;
+  margin:0 auto;
+  font-family: 'Open Sans', sans-serif;
+  border:none;
+  border-radius: 0.3em;
+  -webkit-border-radius: 0.3em;
+  -o- border-radius: 0.3em;
+  -moz-border-radius: 0.3em;
+  ilter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffe49e', endColorstr='#e27f00',GradientType=0 ); /* IE6-9 */
+}
+
+.aligText, .aligText th{
+  text-align: center;
+}

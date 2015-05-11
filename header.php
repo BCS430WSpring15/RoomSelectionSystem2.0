@@ -15,6 +15,7 @@
   <link href='http://fonts.googleapis.com/css?family=Open+Sans:600italic,400,300,600,700' rel='stylesheet' type='text/css'>
   <!--//webfonts-->
   <link rel="stylesheet" type="text/css" href="style/style.css" title="style" />
+  <link rel="shortcut icon" href="images/favicon.ico">
 </head>
 
 <body>

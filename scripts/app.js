@@ -1,27 +1,42 @@
 $(function(){ 
 	$('#loginBtn').click(function(){
 		//alert( "Success" );
+		$("#errorLogin").addClass("hidden");
+		$("#errorLogin").empty();
 		var funct = "VALUSER";
 		var username = $("#username").val();
 		var password = $("#password").val();
 		//alert( funct+"&"+username+"&"+password );
-		console.log(username);
+		//console.log(username);
 		$.ajax({
 		    type: "POST",
 		    dataType: "json",
 		    url: "functions.php",
 		    data: { funct: funct, username: username, password: password },
 		    success: function(data) {
-		      console.log(data);
+		      //console.log(data);
+		      if(data.returnCode != 0){
+		      	$("#errorLogin").append(data.message);
+		      	$("#errorLogin").removeClass("hidden");
+		      }	else {
+		      	//alert(data.message);
+		      	if(data.isNew == "true"){
+		      		document.getElementById("to_housing_app").click();
+		      	} else {
+		      		document.getElementById("to_room_selection").click();
+		      	}
+		      }
 		    },error: function(data) { 
-		        console.log(data);
+		      //console.log(data);
 		    }
 		  });
 		  return false;
 	})
 
 	$('#houAppBtn').click(function(){
-		alert( "Success" );
+		//alert( "Success" );
+		$("#errorHousingApp").addClass("hidden");
+		$("#errorHousingApp").empty();
 		var funct = "HOUSINGAPPLICATION";
 		var emergcontact = $("#emergcontact").val();
 		var emergcontactphone = $("#emergcontactphone").val();
@@ -49,13 +64,20 @@ $(function(){
 			smoker: smoker, riser: riser, sleep: sleep, quietly: quietly, consider: consider,
 			medicalconcerns: medicalconcerns, studentsignature: studentsignature,
 			studentsignaturedate: studentsignaturedate, releaseinfo: releaseinfo,
-			guardiansignature: guardiansignature, guardiansignaturedate: guardiansignaturedate},
+			guardiansignature: guardiansignature, guardiansignaturedate: guardiansignaturedate },
 		    success: function(data) {
-		      console.log(data);
+		      /*console.log(data);
 		      console.log(data["returnCode"]);
-		      console.log(data["message"]);
+		      console.log(data["message"]);*/
+		      if(data.returnCode != 0){
+		      	$("#errorHousingApp").append(data.message);
+		      	$("#errorHousingApp").removeClass("hidden");
+		      }	else {
+		      	alert(data.message);
+		      	document.getElementById("go_to_home").click();
+		      }
 		    },error: function(data) {
-		        console.log(data);
+		        //console.log(data);
 		    }  
 		  });
 		  return false;
@@ -78,26 +100,40 @@ $(function(){
 		var birthdate = $("#birthdate").val();
 		var gender = $("input[type='radio'][name='gender']:checked").val();
 		var email = $("#email").val();
-		var age = $("#age").val();
+		var personalEmail = $("#personalEmail").val();
 		var password = $("#password").val();
 		var confirmPass = $("#confirmPass").val();
 		var securityQuestionID = $("#secQuest").val();
 		var securityQuestionAnswer = $("#secQueAns").val();
-		console.log(funct);
-		$.ajax({
-		    type: "POST",
-		    dataType: "json",
-		    url: "functions.php",
-		    data: { funct: funct, major: major, class_status: class_status, name: name,
-		    RAM_ID: RAM_ID, address_street: address_street, cell_phone: cell_phone, 
-		    address_state: address_state, home_phone: home_phone, birthdate: birthdate, 
-		    gender: gender, email: email, age: age, password: password, securityQuestionID: securityQuestionID, securityQuestionAnswer: securityQuestionAnswer },
-		    success: function(data) {
-		      console.log(data);
-		    },error: function(data) { 
-		        console.log(data);
-		    }
-		 });
+		$("#errorSignUp").addClass("hidden");
+		$("#errorSignUp").empty();
+		//console.log(funct);
+		if(password == confirmPass){
+			$.ajax({
+			    type: "POST",
+			    dataType: "json",
+			    url: "functions.php",
+			    data: { funct: funct, major: major, class_status: class_status, name: name,
+			    RAM_ID: RAM_ID, address_street: address_street, cell_phone: cell_phone, 
+			    address_state: address_state, home_phone: home_phone, birthdate: birthdate, 
+			    gender: gender, email: email, personalEmail: personalEmail, password: password, confirmPass: confirmPass, securityQuestionID: securityQuestionID, securityQuestionAnswer: securityQuestionAnswer },
+			    success: function(data) {
+			      	//console.log(data);
+				    if(data.returnCode != 0){
+						$("#errorSignUp").append(data.message);
+		      			$("#errorSignUp").removeClass("hidden");
+				    } else {
+				    	alert(data.message);
+				    	document.getElementById("go_to_login").click();
+				    }
+			    },error: function(data) { 
+			      //console.log(data);
+			    }
+			});
+		} else {
+			$("#errorSignUp").append("Passwords must match");
+		    $("#errorSignUp").removeClass("hidden");
+		}
 		return false;
 	})
 
@@ -259,7 +295,7 @@ $(function(){
 	})
 
 	$('#forgotPassLnk').click(function(){
-		window.location.replace("forgot_password.php");
+		//window.location.replace("forgot_password.php");
 	})
 
 	$('#roomSelectSingle').click(function(){
@@ -284,6 +320,8 @@ $(function(){
 	$('#forgotPassBtn').click(function(){
 		var funct = "CHECKUSER";
 		var username = $("#username").val();
+		$("#errorForgot").addClass("hidden");
+		$("#errorForgot").empty();
 		$.ajax({
 		    type: "POST",
 		    dataType: "json",
@@ -295,9 +333,12 @@ $(function(){
 		      	$("#securityQuestion").val(data.question);
 		      	$("#forgot-pass-form").addClass("hidden");
 		      	$("#confirm-forgot-pass-form").removeClass("hidden");
+		      } else {
+		      	$("#errorForgot").append(data.message);
+		      	$("#errorForgot").removeClass("hidden");
 		      }
 		    },error: function(data) { 
-		        console.log(data);
+		        //console.log(data);
 		    }
 		  });
 		  return false;
@@ -310,20 +351,30 @@ $(function(){
 		var newPassword = $("#newPassword").val();
 		var confirmNewPassword = $("#confirmNewPassword").val();
 		var fromTable = $("#fromTable").val();
+		$("#errorForgotConfirm").addClass("hidden");
+		$("#errorForgotConfirm").empty();
 		if(newPassword == confirmNewPassword){
 			$.ajax({
 			    type: "POST",
 			    dataType: "json",
 			    url: "functions.php",
-			    data: { funct: funct, fromTable: fromTable, username: username,securityAnswer: securityAnswer, newPassword: newPassword },
+			    data: { funct: funct, fromTable: fromTable, username: username,securityAnswer: securityAnswer, newPassword: newPassword, confirmNewPassword: confirmNewPassword },
 			    success: function(data) {
-			    	console.log(data);
+			    	//console.log(data);
+			    	if(data.returnCode != 0){
+						$("#errorForgotConfirm").append(data.message);
+		      			$("#errorForgotConfirm").removeClass("hidden");
+			    	} else {
+			    		alert(data.message);
+			    		document.getElementById("to_login").click();
+			    	}
 			    },error: function(data) { 
-			        console.log(data);
+			        //console.log(data);
 			    }
 			});
 		} else{
-			alert("PASSWORDS MUST MATCH");
+			$("#errorForgotConfirm").append("Passwords must match");
+		    $("#errorForgotConfirm").removeClass("hidden");
 		}
 		return false;
 	})

@@ -1,19 +1,38 @@
-<?php require 'header.php'; require 'dbConn.php';?>
+<?php require 'header.php'; require 'dbConn.php';
+  session_start();
+  if(!isset($_SESSION["userType"]) && empty($_SESSION["userType"]) && !isset($_SESSION["user"]) && empty($_SESSION["user"])){
+    header('Location: login.php');
+  }
+?>
       <div id="menubar">
         <ul id="menu">
           <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
           <li><a href="home.php">Home</a></li>
-          <li class="selected"><a>Housing Application</a></li>
-          <li><a href="remove_student.php">Remove Student</a></li>
-          <li><a href="financial_status.php">Financial Status</a></li>
-          <li><a href="room_selection.php">Room Selection</a></li>
+          <?php
+            if($_SESSION["userType"] == "1" || $_SESSION["userType"] == "2"){
+              echo '<li><a href="room_assigment.php">Room Assignment</a></li>';
+            } else if($_SESSION["userType"] == "2"){
+
+            } else if($_SESSION["userType"] == "3"){
+              echo '<li><a href="financial_status.php">Financial Status</a></li>';
+            }
+            if(isset($_SESSION["isNew"]) && !empty($_SESSION["isNew"])){
+              if($_SESSION["isNew"] == "false"){
+                echo '<li class="selected"><a>Room Selection</a></li>';
+              } else if($_SESSION["isNew"] == "true"){
+                echo '<li><a href="housing_application.php">Housing Application</a></li>';
+              }
+            }
+          ?>
+          <li><a href="log_out.php">Log Out</a></li>
         </ul>
       </div>
     </div>
     <div id="content_header"></div>
     <div id="site_content">
+    <h1>Room Selection</h1>
         <form name="beginingHousingAppForm" action="" id="beginingHousingAppForm">
-        <table>
+        <table style="width:100%;">
           <tr>
       			<td>Building</td><td>Floor</td>
       			<td>Type of Suite</td><td>Room</td>

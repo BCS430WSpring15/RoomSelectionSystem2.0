@@ -1,5 +1,4 @@
 <?php
-
 	function getCredentials(){
 		$myfile = fopen("connection.txt", "r") or die("Unable to open file!");
 		// Output one line until end-of-file
