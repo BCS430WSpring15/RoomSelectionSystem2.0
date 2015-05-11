@@ -277,17 +277,21 @@ $(function(){
 
 	$('#roomSelectSingle').click(function(){
 		var roomID = $('#roomSelect').val();
+		var studentID = $('#studentID').val();
 		var funct = "SUBMITROOMSELECTIONSINGLE";
 		if(roomID != "-1"){
 			$.ajax({
 		    type: "POST",
 		    dataType: "json",
 		    url: "functions.php",
-		    data: { funct: funct, roomID: roomID },
+		    data: { funct: funct, roomID: roomID, studentID: studentID },
 		    success: function(data) {
 		    	if(data.returnCode == 0){
 		    		alert(data.message);
+		    		$('#go_to_home').attr("href", data.redirectTo);
 		    		document.getElementById("go_to_home").click();
+		    	} else {
+		    		console.log(data);
 		    	}
 		    },error: function(data) { 
 		        console.log(data);

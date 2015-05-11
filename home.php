@@ -9,6 +9,9 @@
           <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
           <li class="selected"><a>Home</a></li>
           <?php
+            if($_SESSION["userType"] == "1"){
+              echo '<li><a href="add_room.php">Add Room</a></li>';
+            }
             if($_SESSION["userType"] == "1" || $_SESSION["userType"] == "2"){
               echo '<li><a href="room_assigment.php">Room Assignment</a></li>';
             } else if($_SESSION["userType"] == "2"){

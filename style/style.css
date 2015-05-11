@@ -554,3 +554,26 @@ input[type="submit"]:hover{
 .aligText, .aligText th{
   text-align: center;
 }
+
+.addRoom a{
+margin-top:3px;
+  text-decoration: none !important;
+  display: inline-block;
+  color: blue;
+  font-size:12px;
+  font-weight:600;
+  transition: 0.1s all;
+  -webkit-transition: 0.1s all;
+  -moz-transition: 0.1s all;
+  -o-transition: 0.1s all;
+  cursor: pointer;
+  outline: none;
+  margin:0 auto;
+  font-family: 'Open Sans', sans-serif;
+  border:none;
+  border-radius: 0.3em;
+  -webkit-border-radius: 0.3em;
+  -o- border-radius: 0.3em;
+  -moz-border-radius: 0.3em;
+  ilter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffe49e', endColorstr='#e27f00',GradientType=0 ); /* IE6-9 */
+}

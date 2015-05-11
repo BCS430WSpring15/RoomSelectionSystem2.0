@@ -2,6 +2,10 @@
   session_start();
   if(!isset($_SESSION["userType"]) && empty($_SESSION["userType"]) && !isset($_SESSION["user"]) && empty($_SESSION["user"])){
     header('Location: login.php');
+  } else {
+    if($_SESSION["userType"] != "3" && $_SESSION["userType"] != "1"){
+      header('Location: home.php');
+    }
   }
 ?>
       <div id="menubar">
@@ -9,6 +13,9 @@
           <!-- put class="selected" in the li tag for the selected page - to highlight which page you're on -->
           <li><a href="home.php">Home</a></li>
           <?php
+            if($_SESSION["userType"] == "1"){
+              echo '<li><a href="add_room.php">Add Room</a></li>';
+            }
             if($_SESSION["userType"] == "1" || $_SESSION["userType"] == "2"){
               echo '<li><a href="room_assigment.php">Room Assignment</a></li>';
             } else if($_SESSION["userType"] == "2"){
@@ -81,5 +88,12 @@
               <div class="clear"></div>
           </div>
       </div>
-      <a id="go_to_home" href="home.php" class="hidden"></a>
+      <a id="go_to_home" class="hidden"></a>
+      <input id="studentID" type="text" class="hidden" <?php 
+      if($_SESSION["userType"] == "1" && isset($_GET["id"]) && !empty($_GET["id"])){
+        echo 'value="'.$_GET["id"].'"';
+      } else if($_SESSION["userType"] == "3") {
+        echo 'value=""';
+      } 
+    ?> />
 <?php require 'footer.php'; ?>

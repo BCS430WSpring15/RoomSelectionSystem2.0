@@ -371,14 +371,23 @@
 
 	function submitRoomSelectionSingle(){
 		$conn = getConnection();
-		$sql = 'INSERT INTO `PERIOD_ROOM_STUDENT` (`PeriodID`, `RoomID`, `StudentID`) VALUES ((SELECT `PeriodID` FROM `PERIOD` WHERE `IsCurrent` = 1), "'.$_POST["roomID"].'", "'.$_SESSION["user"]["StudentID"].'");';
+		$studentID = "";
+		$redirectTo = "";
+		if($_SESSION["userType"] == "1" && isset($_POST["studentID"]) && !empty($_POST["studentID"])){
+			$studentID = $_POST["studentID"];
+			$redirectTo = "add_room.php";
+		} else if($_SESSION["userType"] == "3") {
+			$studentID = $_SESSION["user"]["StudentID"];
+			$redirectTo = "home.php";
+		}
+		$sql = 'INSERT INTO `PERIOD_ROOM_STUDENT` (`PeriodID`, `RoomID`, `StudentID`) VALUES ((SELECT `PeriodID` FROM `PERIOD` WHERE `IsCurrent` = 1), "'.$_POST["roomID"].'", "'.$studentID.'");';
 		$result = $conn->query($sql);
 		if (!$result) {
 			$arr = array( "returnCode" => "1", "message" => $conn->error );
 			echo json_encode($arr);
 			exit();
 		} else {
-			$arr = array("returnCode" => "0", "message" => "Room selected successfully" );
+			$arr = array("returnCode" => "0", "message" => "Room selected successfully", "redirectTo" => $redirectTo );
 			echo json_encode($arr);
 		}
 	}
