@@ -577,3 +577,7 @@ margin-top:3px;
   -moz-border-radius: 0.3em;
   ilter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffe49e', endColorstr='#e27f00',GradientType=0 ); /* IE6-9 */
 }
+
+#class_status{
+  width: 90%;
+}
